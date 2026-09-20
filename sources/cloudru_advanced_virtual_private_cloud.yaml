@@ -1,0 +1,9 @@
+id: cloudru_advanced_virtual_private_cloud
+provider: cloudru_advanced
+name: Virtual Private Cloud
+
+docs:
+  - https://cloud.ru/docs/en/usermanual/vpc/en-us_topic_0013748729
+
+api:
+  - https://cloud.ru/docs/advanced/overview/advanced-en-api

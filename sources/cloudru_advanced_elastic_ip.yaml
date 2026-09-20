@@ -1,0 +1,9 @@
+id: cloudru_advanced_elastic_ip
+provider: cloudru_advanced
+name: Elastic IP
+
+docs:
+  - https://cloud.ru/docs/en/usermanual/eip/overview_0001
+
+api:
+  - https://cloud.ru/docs/advanced/overview/advanced-en-api

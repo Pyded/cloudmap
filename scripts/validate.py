@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the cloud resource catalog and, optionally, its external links."""
+"""Validate cloudmap resources, sources, references, and external links."""
 
 from __future__ import annotations
 
@@ -11,21 +11,22 @@ import urllib.error
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
-from typing import Any
+from typing import Any, Callable
 from urllib.parse import urlparse
 
 import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG_DIR = ROOT / "catalog"
-CATEGORIES = frozenset({"compute", "storage", "network", "database"})
-PROVIDERS = frozenset({"evolution", "advanced", "yandex"})
-RESOURCE_FIELDS = frozenset({"id", "name", "category", "aliases", "providers"})
-PROVIDER_FIELDS = frozenset({"service", "resource", "docs", "api"})
+RESOURCES_DIR = ROOT / "resources"
+SOURCES_DIR = ROOT / "sources"
+PROVIDERS = frozenset({"cloudru_evolution", "cloudru_advanced", "yandex_cloud"})
+RESOURCE_FIELDS = frozenset({"id", "name", "providers"})
+RESOURCE_PROVIDER_FIELDS = frozenset({"name", "sources"})
+SOURCE_FIELDS = frozenset({"id", "provider", "name", "docs", "api"})
 SNAKE_CASE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
 CYRILLIC = re.compile(r"[А-Яа-яЁё]")
-USER_AGENT = "cloudmap-url-validator/1.0 (+https://github.com/)"
+USER_AGENT = "cloudmap-url-validator/2.0 (+https://github.com/Pyded/cloudmap)"
 
 
 class CatalogError(Exception):
@@ -36,7 +37,11 @@ class UniqueKeyLoader(yaml.SafeLoader):
     """A YAML loader that rejects duplicate mapping keys."""
 
 
-def _construct_mapping(loader: UniqueKeyLoader, node: yaml.MappingNode, deep: bool = False) -> dict[Any, Any]:
+def _construct_mapping(
+    loader: UniqueKeyLoader,
+    node: yaml.MappingNode,
+    deep: bool = False,
+) -> dict[Any, Any]:
     mapping: dict[Any, Any] = {}
     for key_node, value_node in node.value:
         key = loader.construct_object(key_node, deep=deep)
@@ -57,20 +62,93 @@ UniqueKeyLoader.add_constructor(
 )
 
 
-def _location(path: Path, resource_id: object | None = None) -> str:
+def _location(path: Path, item_id: object | None = None) -> str:
     try:
         shown_path = path.relative_to(ROOT)
     except ValueError:
         shown_path = path
-    if resource_id is None:
-        return str(shown_path)
-    return f"{shown_path} [{resource_id}]"
+    return str(shown_path) if item_id is None else f"{shown_path} [{item_id}]"
 
 
 def _require_string(value: object, field: str, location: str) -> str:
     if not isinstance(value, str) or not value.strip():
         raise CatalogError(f"{location}: поле {field!r} должно быть непустой строкой")
     return value
+
+
+def _require_fields(
+    document: dict[Any, Any],
+    expected: frozenset[str],
+    location: str,
+) -> None:
+    fields = set(document)
+    missing = expected - fields
+    unknown = fields - expected
+    if missing:
+        raise CatalogError(f"{location}: отсутствуют поля: {', '.join(sorted(missing))}")
+    if unknown:
+        raise CatalogError(
+            f"{location}: неизвестные поля: {', '.join(sorted(map(str, unknown)))}"
+        )
+
+
+def _load_yaml(path: Path) -> dict[str, Any]:
+    try:
+        document = yaml.load(path.read_text(encoding="utf-8"), Loader=UniqueKeyLoader)
+    except (OSError, UnicodeError, yaml.YAMLError) as exc:
+        raise CatalogError(f"{_location(path)}: не удалось прочитать YAML: {exc}") from exc
+    if not isinstance(document, dict):
+        raise CatalogError(f"{_location(path)}: корнем YAML должен быть объект")
+    return document
+
+
+def _validate_id(document: dict[str, Any], path: Path) -> tuple[str, str]:
+    raw_id = document.get("id", path.stem)
+    location = _location(path, raw_id)
+    item_id = _require_string(raw_id, "id", location)
+    if not SNAKE_CASE.fullmatch(item_id):
+        raise CatalogError(f"{location}: id должен быть в английском snake_case")
+    if item_id != path.stem:
+        raise CatalogError(
+            f"{location}: id {item_id!r} не совпадает с именем файла {path.stem!r}"
+        )
+    return item_id, location
+
+
+def _validate_resource(path: Path) -> dict[str, Any]:
+    resource = _load_yaml(path)
+    _, location = _validate_id(resource, path)
+    _require_fields(resource, RESOURCE_FIELDS, location)
+
+    name = _require_string(resource["name"], "name", location)
+    if not CYRILLIC.search(name):
+        raise CatalogError(f"{location}: name должен содержать кириллицу")
+
+    providers = resource["providers"]
+    if not isinstance(providers, dict) or not providers:
+        raise CatalogError(f"{location}: providers должен быть непустым объектом")
+    for provider, mapping in providers.items():
+        if provider not in PROVIDERS:
+            raise CatalogError(f"{location}: неизвестный провайдер {provider!r}")
+        if not isinstance(mapping, dict):
+            raise CatalogError(f"{location}: providers.{provider} должен быть объектом")
+        _require_fields(mapping, RESOURCE_PROVIDER_FIELDS, f"{location} providers.{provider}")
+        _require_string(mapping["name"], f"providers.{provider}.name", location)
+        source_ids = mapping["sources"]
+        if not isinstance(source_ids, list) or not source_ids:
+            raise CatalogError(
+                f"{location}: providers.{provider}.sources должен быть непустым списком"
+            )
+        seen: set[str] = set()
+        for source_id in source_ids:
+            if not isinstance(source_id, str) or not SNAKE_CASE.fullmatch(source_id):
+                raise CatalogError(
+                    f"{location}: каждый source id у {provider!r} должен быть в snake_case"
+                )
+            if source_id in seen:
+                raise CatalogError(f"{location}: повторяющийся source {source_id!r}")
+            seen.add(source_id)
+    return resource
 
 
 def _is_official_url(url: str) -> bool:
@@ -86,140 +164,94 @@ def _is_official_url(url: str) -> bool:
     )
 
 
-def _validate_provider(provider: object, data: object, location: str) -> None:
-    if provider not in PROVIDERS:
-        raise CatalogError(f"{location}: неизвестный провайдер {provider!r}")
-    if not isinstance(data, dict):
-        raise CatalogError(f"{location}: описание провайдера {provider!r} должно быть объектом")
-
-    fields = set(data)
-    missing = PROVIDER_FIELDS - fields
-    unknown = fields - PROVIDER_FIELDS
-    if missing:
-        raise CatalogError(
-            f"{location}: у провайдера {provider!r} отсутствуют поля: {', '.join(sorted(missing))}"
-        )
-    if unknown:
-        raise CatalogError(
-            f"{location}: у провайдера {provider!r} неизвестные поля: {', '.join(sorted(map(str, unknown)))}"
-        )
-
-    for field in sorted(PROVIDER_FIELDS):
-        value = _require_string(data[field], f"providers.{provider}.{field}", location)
-        if field in {"docs", "api"} and not _is_official_url(value):
+def _validate_url_list(value: object, field: str, location: str) -> None:
+    if not isinstance(value, list) or not value:
+        raise CatalogError(f"{location}: {field} должен быть непустым списком")
+    seen: set[str] = set()
+    for url in value:
+        if not isinstance(url, str) or not _is_official_url(url):
             raise CatalogError(
-                f"{location}: providers.{provider}.{field} должен быть HTTPS-ссылкой "
+                f"{location}: каждый URL в {field} должен быть HTTPS-ссылкой "
                 "на официальный домен Cloud.ru или Yandex Cloud"
             )
+        if url in seen:
+            raise CatalogError(f"{location}: повторяющийся URL в {field}: {url}")
+        seen.add(url)
 
 
-def _validate_resource(resource: object, path: Path, category: str, index: int) -> dict[str, Any]:
-    fallback_location = f"{_location(path)} [resources[{index}]]"
-    if not isinstance(resource, dict):
-        raise CatalogError(f"{fallback_location}: ресурс должен быть объектом")
+def _validate_source(path: Path) -> dict[str, Any]:
+    source = _load_yaml(path)
+    _, location = _validate_id(source, path)
+    _require_fields(source, SOURCE_FIELDS, location)
 
-    resource_id = resource.get("id", f"resources[{index}]")
-    location = _location(path, resource_id)
-    fields = set(resource)
-    missing = RESOURCE_FIELDS - fields
-    unknown = fields - RESOURCE_FIELDS
-    if missing:
-        raise CatalogError(f"{location}: отсутствуют поля: {', '.join(sorted(missing))}")
-    if unknown:
-        raise CatalogError(f"{location}: неизвестные поля: {', '.join(sorted(map(str, unknown)))}")
-
-    resource_id = _require_string(resource["id"], "id", location)
-    if not SNAKE_CASE.fullmatch(resource_id):
-        raise CatalogError(f"{location}: id должен быть в английском snake_case")
-
-    name = _require_string(resource["name"], "name", location)
-    if not CYRILLIC.search(name):
-        raise CatalogError(f"{location}: name должен содержать кириллицу")
-
-    resource_category = _require_string(resource["category"], "category", location)
-    if resource_category not in CATEGORIES:
-        raise CatalogError(f"{location}: неизвестная категория {resource_category!r}")
-    if resource_category != category:
-        raise CatalogError(
-            f"{location}: категория {resource_category!r} не совпадает с именем файла {category!r}"
-        )
-
-    aliases = resource["aliases"]
-    if not isinstance(aliases, list):
-        raise CatalogError(f"{location}: aliases должен быть списком")
-    seen_aliases: set[str] = set()
-    for alias in aliases:
-        if not isinstance(alias, str) or not SNAKE_CASE.fullmatch(alias):
-            raise CatalogError(f"{location}: каждый alias должен быть в английском snake_case")
-        if alias in seen_aliases:
-            raise CatalogError(f"{location}: повторяющийся alias {alias!r}")
-        seen_aliases.add(alias)
-
-    providers = resource["providers"]
-    if not isinstance(providers, dict):
-        raise CatalogError(f"{location}: providers должен быть объектом")
-    for provider, data in providers.items():
-        _validate_provider(provider, data, location)
-
-    return resource
+    provider = _require_string(source["provider"], "provider", location)
+    if provider not in PROVIDERS:
+        raise CatalogError(f"{location}: неизвестный провайдер {provider!r}")
+    _require_string(source["name"], "name", location)
+    _validate_url_list(source["docs"], "docs", location)
+    _validate_url_list(source["api"], "api", location)
+    return source
 
 
-def load_catalog(catalog_dir: Path = CATALOG_DIR) -> list[dict[str, Any]]:
-    """Load and structurally validate every category file."""
-    if not catalog_dir.is_dir():
-        raise CatalogError(f"{catalog_dir}: каталог не найден")
-
-    paths = sorted(catalog_dir.glob("*.yaml"))
-    actual_categories = {path.stem for path in paths}
-    missing_categories = CATEGORIES - actual_categories
-    unknown_categories = actual_categories - CATEGORIES
-    if missing_categories:
-        raise CatalogError(f"catalog: отсутствуют категории: {', '.join(sorted(missing_categories))}")
-    if unknown_categories:
-        raise CatalogError(f"catalog: неизвестные категории: {', '.join(sorted(unknown_categories))}")
-
-    resources: list[dict[str, Any]] = []
+def _load_directory(
+    directory: Path,
+    validator: Callable[[Path], dict[str, Any]],
+) -> list[dict[str, Any]]:
+    if not directory.is_dir():
+        raise CatalogError(f"{directory}: каталог не найден")
+    paths = sorted(directory.glob("*.yaml"))
+    if not paths:
+        raise CatalogError(f"{directory}: YAML-файлы не найдены")
+    items = [validator(path) for path in paths]
     ids: dict[str, Path] = {}
-    for path in paths:
-        try:
-            document = yaml.load(path.read_text(encoding="utf-8"), Loader=UniqueKeyLoader)
-        except (OSError, UnicodeError, yaml.YAMLError) as exc:
-            raise CatalogError(f"{_location(path)}: не удалось прочитать YAML: {exc}") from exc
-
-        if not isinstance(document, dict):
-            raise CatalogError(f"{_location(path)}: корнем YAML должен быть объект")
-        if set(document) != {"resources"}:
-            missing = {"resources"} - set(document)
-            unknown = set(document) - {"resources"}
-            details: list[str] = []
-            if missing:
-                details.append("отсутствует поле resources")
-            if unknown:
-                details.append(f"неизвестные поля: {', '.join(sorted(map(str, unknown)))}")
-            raise CatalogError(f"{_location(path)}: {'; '.join(details)}")
-        if not isinstance(document["resources"], list):
-            raise CatalogError(f"{_location(path)}: resources должен быть списком")
-
-        for index, raw_resource in enumerate(document["resources"]):
-            resource = _validate_resource(raw_resource, path, path.stem, index)
-            resource_id = resource["id"]
-            if resource_id in ids:
-                raise CatalogError(
-                    f"{_location(path, resource_id)}: id уже используется в {_location(ids[resource_id])}"
-                )
-            ids[resource_id] = path
-            resources.append(resource)
-
-    return sorted(resources, key=lambda resource: (resource["category"], resource["id"]))
+    for path, item in zip(paths, items):
+        item_id = item["id"]
+        if item_id in ids:
+            raise CatalogError(
+                f"{_location(path, item_id)}: id уже используется в {_location(ids[item_id])}"
+            )
+        ids[item_id] = path
+    return sorted(items, key=lambda item: item["id"])
 
 
-def catalog_urls(resources: list[dict[str, Any]]) -> list[str]:
+def load_catalog(
+    resources_dir: Path = RESOURCES_DIR,
+    sources_dir: Path = SOURCES_DIR,
+) -> dict[str, list[dict[str, Any]]]:
+    """Load and validate resource files, source files, and all references."""
+    resources = _load_directory(resources_dir, _validate_resource)
+    sources = _load_directory(sources_dir, _validate_source)
+    sources_by_id = {source["id"]: source for source in sources}
+    referenced_sources: set[str] = set()
+
+    for resource in resources:
+        resource_path = resources_dir / f"{resource['id']}.yaml"
+        location = _location(resource_path, resource["id"])
+        for provider, mapping in resource["providers"].items():
+            for source_id in mapping["sources"]:
+                source = sources_by_id.get(source_id)
+                if source is None:
+                    raise CatalogError(f"{location}: неизвестный source {source_id!r}")
+                if source["provider"] != provider:
+                    raise CatalogError(
+                        f"{location}: source {source_id!r} принадлежит {source['provider']!r}, "
+                        f"а не {provider!r}"
+                    )
+                referenced_sources.add(source_id)
+
+    unused_sources = set(sources_by_id) - referenced_sources
+    if unused_sources:
+        raise CatalogError(f"sources: неиспользуемые источники: {', '.join(sorted(unused_sources))}")
+    return {"resources": resources, "sources": sources}
+
+
+def catalog_urls(catalog: dict[str, list[dict[str, Any]]]) -> list[str]:
     return sorted(
         {
-            provider[field]
-            for resource in resources
-            for provider in resource["providers"].values()
+            url
+            for source in catalog["sources"]
             for field in ("docs", "api")
+            for url in source[field]
         }
     )
 
@@ -248,8 +280,8 @@ def _check_url(url: str, retries: int = 2, timeout: float = 15.0) -> str | None:
     return last_error
 
 
-def check_urls(resources: list[dict[str, Any]]) -> None:
-    urls = catalog_urls(resources)
+def check_urls(catalog: dict[str, list[dict[str, Any]]]) -> None:
+    urls = catalog_urls(catalog)
     errors: list[tuple[str, str]] = []
     with ThreadPoolExecutor(max_workers=min(8, len(urls) or 1)) as executor:
         futures = {executor.submit(_check_url, url): url for url in urls}
@@ -269,16 +301,17 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--check-urls", action="store_true", help="проверить доступность всех ссылок")
     args = parser.parse_args(argv)
-
     try:
-        resources = load_catalog()
+        catalog = load_catalog()
         if args.check_urls:
-            check_urls(resources)
+            check_urls(catalog)
     except CatalogError as exc:
         print(f"Ошибка: {exc}", file=sys.stderr)
         return 1
-
-    print(f"Каталог корректен: ресурсов — {len(resources)}")
+    print(
+        f"Каталог корректен: ресурсов — {len(catalog['resources'])}, "
+        f"источников — {len(catalog['sources'])}"
+    )
     return 0
 
 

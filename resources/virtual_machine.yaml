@@ -1,0 +1,16 @@
+id: virtual_machine
+name: Виртуальная машина
+
+providers:
+  cloudru_evolution:
+    name: Виртуальная машина
+    sources:
+      - cloudru_evolution_virtual_machines
+  cloudru_advanced:
+    name: Elastic Cloud Server
+    sources:
+      - cloudru_advanced_elastic_cloud_server
+  yandex_cloud:
+    name: Virtual Machine
+    sources:
+      - yandex_compute_cloud

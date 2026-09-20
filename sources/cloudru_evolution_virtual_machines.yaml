@@ -1,0 +1,9 @@
+id: cloudru_evolution_virtual_machines
+provider: cloudru_evolution
+name: Виртуальные машины
+
+docs:
+  - https://cloud.ru/docs/virtual-machines/ug/index.html
+
+api:
+  - https://cloud.ru/docs/api/specs/virtual-machines/ug/_specs/openapi-v3.yaml

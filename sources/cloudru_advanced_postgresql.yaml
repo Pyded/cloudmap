@@ -1,0 +1,9 @@
+id: cloudru_advanced_postgresql
+provider: cloudru_advanced
+name: Relational Database Service for PostgreSQL
+
+docs:
+  - https://cloud.ru/docs/en/usermanual/rds/en-us_topic_dashboard
+
+api:
+  - https://cloud.ru/docs/en/api/rds/en-us_topic_0032347780

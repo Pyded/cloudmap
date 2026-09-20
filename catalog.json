@@ -1,239 +1,193 @@
 {
   "resources": [
     {
-      "id": "virtual_machine",
-      "name": "Виртуальная машина",
-      "category": "compute",
-      "aliases": [
-        "vm",
-        "instance"
-      ],
+      "id": "managed_postgresql",
+      "name": "Управляемая база данных PostgreSQL",
       "providers": {
-        "evolution": {
-          "service": "Виртуальные машины",
-          "resource": "Виртуальная машина",
-          "docs": "https://cloud.ru/docs/virtual-machines/ug/index",
-          "api": "https://cloud.ru/docs/virtual-machines/ug/topics/api-ref"
-        },
-        "advanced": {
-          "service": "Elastic Cloud Server",
-          "resource": "Elastic Cloud Server",
-          "docs": "https://cloud.ru/docs/en/usermanual/ecs/en-us_topic_0013771112",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
-        },
-        "yandex": {
-          "service": "Compute Cloud",
-          "resource": "Virtual Machine",
-          "docs": "https://yandex.cloud/ru/docs/compute/concepts/vm",
-          "api": "https://yandex.cloud/ru/docs/compute/api-ref/"
+        "cloudru_advanced": {
+          "name": "Relational Database Service for PostgreSQL",
+          "sources": [
+            "cloudru_advanced_postgresql"
+          ]
         }
       }
-    },
-    {
-      "id": "vm_image",
-      "name": "Образ виртуальной машины",
-      "category": "compute",
-      "aliases": [
-        "machine_image",
-        "image"
-      ],
-      "providers": {
-        "evolution": {
-          "service": "Образы",
-          "resource": "Образ",
-          "docs": "https://cloud.ru/docs/images/ug/index",
-          "api": "https://cloud.ru/docs/virtual-machines/ug/topics/api-ref"
-        },
-        "advanced": {
-          "service": "Image Management Service",
-          "resource": "Image",
-          "docs": "https://cloud.ru/docs/en/usermanual/ims/en-us_topic_0013901609",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
-        },
-        "yandex": {
-          "service": "Compute Cloud",
-          "resource": "Image",
-          "docs": "https://yandex.cloud/ru/docs/compute/concepts/image",
-          "api": "https://yandex.cloud/ru/docs/compute/api-ref/"
-        }
-      }
-    },
-    {
-      "id": "vm_snapshot",
-      "name": "Снимок виртуальной машины",
-      "category": "compute",
-      "aliases": [
-        "machine_snapshot",
-        "instance_snapshot"
-      ],
-      "providers": {}
     },
     {
       "id": "public_ip",
       "name": "Публичный IP-адрес",
-      "category": "network",
-      "aliases": [
-        "external_ip",
-        "elastic_ip"
-      ],
       "providers": {
-        "evolution": {
-          "service": "Публичные IP",
-          "resource": "Публичный IP",
-          "docs": "https://cloud.ru/docs/public-ip/ug/index",
-          "api": "https://cloud.ru/docs/evolution-vpc/ug/topics/api-ref"
+        "cloudru_evolution": {
+          "name": "Публичный IP",
+          "sources": [
+            "cloudru_evolution_virtual_machines"
+          ]
         },
-        "advanced": {
-          "service": "Elastic IP",
-          "resource": "EIP",
-          "docs": "https://cloud.ru/docs/en/usermanual/eip/overview_0001",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+        "cloudru_advanced": {
+          "name": "Elastic IP",
+          "sources": [
+            "cloudru_advanced_elastic_ip"
+          ]
         },
-        "yandex": {
-          "service": "Virtual Private Cloud",
-          "resource": "Address",
-          "docs": "https://yandex.cloud/ru/docs/vpc/concepts/address",
-          "api": "https://yandex.cloud/ru/docs/vpc/api-ref/"
+        "yandex_cloud": {
+          "name": "Address",
+          "sources": [
+            "yandex_virtual_private_cloud"
+          ]
         }
       }
     },
     {
       "id": "security_group",
       "name": "Группа безопасности",
-      "category": "network",
-      "aliases": [
-        "firewall_group"
-      ],
       "providers": {
-        "evolution": {
-          "service": "Группы безопасности",
-          "resource": "Группа безопасности",
-          "docs": "https://cloud.ru/docs/security-groups/ug/index",
-          "api": "https://cloud.ru/docs/evolution-vpc/ug/topics/api-ref"
+        "cloudru_evolution": {
+          "name": "Группа безопасности",
+          "sources": [
+            "cloudru_evolution_virtual_machines"
+          ]
         },
-        "advanced": {
-          "service": "Virtual Private Cloud",
-          "resource": "Security Group",
-          "docs": "https://cloud.ru/docs/en/usermanual/vpc/en-us_topic_0013748729",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+        "cloudru_advanced": {
+          "name": "Security Group",
+          "sources": [
+            "cloudru_advanced_virtual_private_cloud"
+          ]
         },
-        "yandex": {
-          "service": "Virtual Private Cloud",
-          "resource": "Security Group",
-          "docs": "https://yandex.cloud/ru/docs/vpc/concepts/security-groups",
-          "api": "https://yandex.cloud/ru/docs/vpc/api-ref/"
+        "yandex_cloud": {
+          "name": "Security Group",
+          "sources": [
+            "yandex_virtual_private_cloud"
+          ]
         }
       }
     },
     {
       "id": "subnet",
       "name": "Подсеть",
-      "category": "network",
-      "aliases": [
-        "subnetwork"
-      ],
       "providers": {
-        "evolution": {
-          "service": "Подсети",
-          "resource": "Подсеть",
-          "docs": "https://cloud.ru/docs/subnets/ug/index",
-          "api": "https://cloud.ru/docs/evolution-vpc/ug/topics/api-ref"
+        "cloudru_evolution": {
+          "name": "Подсеть",
+          "sources": [
+            "cloudru_evolution_virtual_machines"
+          ]
         },
-        "advanced": {
-          "service": "Virtual Private Cloud",
-          "resource": "Subnet",
-          "docs": "https://cloud.ru/docs/en/usermanual/vpc/en-us_topic_0013748729",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+        "cloudru_advanced": {
+          "name": "Subnet",
+          "sources": [
+            "cloudru_advanced_virtual_private_cloud"
+          ]
         },
-        "yandex": {
-          "service": "Virtual Private Cloud",
-          "resource": "Subnet",
-          "docs": "https://yandex.cloud/ru/docs/vpc/concepts/network",
-          "api": "https://yandex.cloud/ru/docs/vpc/api-ref/"
+        "yandex_cloud": {
+          "name": "Subnet",
+          "sources": [
+            "yandex_virtual_private_cloud"
+          ]
         }
       }
     },
     {
-      "id": "vpc",
-      "name": "Виртуальная частная сеть",
-      "category": "network",
-      "aliases": [
-        "virtual_private_cloud",
-        "cloud_network"
-      ],
+      "id": "virtual_machine",
+      "name": "Виртуальная машина",
       "providers": {
-        "evolution": {
-          "service": "Evolution VPC",
-          "resource": "VPC",
-          "docs": "https://cloud.ru/docs/evolution-vpc/ug/index",
-          "api": "https://cloud.ru/docs/evolution-vpc/ug/topics/api-ref"
+        "cloudru_evolution": {
+          "name": "Виртуальная машина",
+          "sources": [
+            "cloudru_evolution_virtual_machines"
+          ]
         },
-        "advanced": {
-          "service": "Virtual Private Cloud",
-          "resource": "VPC",
-          "docs": "https://cloud.ru/docs/en/usermanual/vpc/en-us_topic_0013748729",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+        "cloudru_advanced": {
+          "name": "Elastic Cloud Server",
+          "sources": [
+            "cloudru_advanced_elastic_cloud_server"
+          ]
         },
-        "yandex": {
-          "service": "Virtual Private Cloud",
-          "resource": "Network",
-          "docs": "https://yandex.cloud/ru/docs/vpc/concepts/network",
-          "api": "https://yandex.cloud/ru/docs/vpc/api-ref/"
+        "yandex_cloud": {
+          "name": "Virtual Machine",
+          "sources": [
+            "yandex_compute_cloud"
+          ]
         }
       }
+    }
+  ],
+  "sources": [
+    {
+      "id": "cloudru_advanced_elastic_cloud_server",
+      "provider": "cloudru_advanced",
+      "name": "Elastic Cloud Server",
+      "docs": [
+        "https://cloud.ru/docs/en/usermanual/ecs/en-us_topic_0013771112"
+      ],
+      "api": [
+        "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+      ]
     },
     {
-      "id": "block_storage_volume",
-      "name": "Том блочного хранилища",
-      "category": "storage",
-      "aliases": [
-        "volume",
-        "block_volume",
-        "disk"
+      "id": "cloudru_advanced_elastic_ip",
+      "provider": "cloudru_advanced",
+      "name": "Elastic IP",
+      "docs": [
+        "https://cloud.ru/docs/en/usermanual/eip/overview_0001"
       ],
-      "providers": {
-        "evolution": {
-          "service": "Диски",
-          "resource": "Диск",
-          "docs": "https://cloud.ru/docs/disks/ug/index",
-          "api": "https://cloud.ru/docs/virtual-machines/ug/topics/api-ref"
-        },
-        "advanced": {
-          "service": "Elastic Volume Service",
-          "resource": "Disk",
-          "docs": "https://cloud.ru/docs/en/usermanual/evs/en-us_topic_0014580741",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
-        },
-        "yandex": {
-          "service": "Compute Cloud",
-          "resource": "Disk",
-          "docs": "https://yandex.cloud/ru/docs/compute/concepts/disk",
-          "api": "https://yandex.cloud/ru/docs/compute/api-ref/"
-        }
-      }
+      "api": [
+        "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+      ]
     },
     {
-      "id": "disk_snapshot",
-      "name": "Снимок диска",
-      "category": "storage",
-      "aliases": [
-        "volume_snapshot",
-        "snapshot"
+      "id": "cloudru_advanced_postgresql",
+      "provider": "cloudru_advanced",
+      "name": "Relational Database Service for PostgreSQL",
+      "docs": [
+        "https://cloud.ru/docs/en/usermanual/rds/en-us_topic_dashboard"
       ],
-      "providers": {
-        "advanced": {
-          "service": "Elastic Volume Service",
-          "resource": "Snapshot",
-          "docs": "https://cloud.ru/docs/en/usermanual/evs/evs_01_0098",
-          "api": "https://cloud.ru/docs/advanced/overview/advanced-en-api"
-        },
-        "yandex": {
-          "service": "Compute Cloud",
-          "resource": "Snapshot",
-          "docs": "https://yandex.cloud/ru/docs/compute/concepts/snapshot",
-          "api": "https://yandex.cloud/ru/docs/compute/api-ref/"
-        }
-      }
+      "api": [
+        "https://cloud.ru/docs/en/api/rds/en-us_topic_0032347780"
+      ]
+    },
+    {
+      "id": "cloudru_advanced_virtual_private_cloud",
+      "provider": "cloudru_advanced",
+      "name": "Virtual Private Cloud",
+      "docs": [
+        "https://cloud.ru/docs/en/usermanual/vpc/en-us_topic_0013748729"
+      ],
+      "api": [
+        "https://cloud.ru/docs/advanced/overview/advanced-en-api"
+      ]
+    },
+    {
+      "id": "cloudru_evolution_virtual_machines",
+      "provider": "cloudru_evolution",
+      "name": "Виртуальные машины",
+      "docs": [
+        "https://cloud.ru/docs/virtual-machines/ug/index.html"
+      ],
+      "api": [
+        "https://cloud.ru/docs/api/specs/virtual-machines/ug/_specs/openapi-v3.yaml"
+      ]
+    },
+    {
+      "id": "yandex_compute_cloud",
+      "provider": "yandex_cloud",
+      "name": "Compute Cloud",
+      "docs": [
+        "https://yandex.cloud/ru/docs/compute/concepts/vm"
+      ],
+      "api": [
+        "https://yandex.cloud/ru/docs/compute/api-ref/"
+      ]
+    },
+    {
+      "id": "yandex_virtual_private_cloud",
+      "provider": "yandex_cloud",
+      "name": "Virtual Private Cloud",
+      "docs": [
+        "https://yandex.cloud/ru/docs/vpc/concepts/network",
+        "https://yandex.cloud/ru/docs/vpc/concepts/security-groups",
+        "https://yandex.cloud/ru/docs/vpc/concepts/address"
+      ],
+      "api": [
+        "https://yandex.cloud/ru/docs/vpc/api-ref/"
+      ]
     }
   ]
 }
