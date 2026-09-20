@@ -1,9 +1,0 @@
-id: yandex_compute_cloud
-provider: yandex_cloud
-name: Compute Cloud
-
-docs:
-  - https://yandex.cloud/ru/docs/compute/concepts/vm
-
-api:
-  - https://yandex.cloud/ru/docs/compute/api-ref/

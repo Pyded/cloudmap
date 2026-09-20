@@ -1,0 +1,65 @@
+- id: virtual_machines
+  name: Виртуальные машины
+
+  evolution:
+    name: Виртуальные машины
+    docs:
+      - https://cloud.ru/docs/virtual-machines/ug/index.html
+    api:
+      - https://cloud.ru/docs/api/specs/virtual-machines/ug/_specs/openapi-v3.yaml
+
+  advanced:
+    services:
+      - name: Elastic Cloud Server
+        docs:
+          - https://cloud.ru/docs/en/usermanual/ecs/en-us_topic_0013771112
+        api:
+          - https://cloud.ru/docs/advanced/overview/advanced-en-api
+
+      - name: Elastic Volume Service
+        docs:
+          - https://cloud.ru/docs/en/usermanual/evs/en-us_topic_0014580741
+
+      - name: Virtual Private Cloud
+        docs:
+          - https://cloud.ru/docs/en/usermanual/vpc/en-us_topic_0013748729
+
+  yandex:
+    services:
+      - name: Compute Cloud
+        docs:
+          - https://yandex.cloud/ru/docs/compute/concepts/vm
+        api:
+          - https://yandex.cloud/ru/docs/compute/api-ref/
+
+      - name: Virtual Private Cloud
+        docs:
+          - https://yandex.cloud/ru/docs/vpc/concepts/network
+        api:
+          - https://yandex.cloud/ru/docs/vpc/api-ref/
+
+- id: managed_postgresql
+  name: Managed PostgreSQL
+
+  evolution:
+    name: Managed PostgreSQL
+    docs:
+      - https://cloud.ru/docs/paas-postgresql/ug/index
+    api:
+      - https://cloud.ru/docs/paas-postgresql/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Relational Database Service
+        docs:
+          - https://cloud.ru/docs/en/usermanual/rds/en-us_topic_dashboard
+        api:
+          - https://cloud.ru/docs/en/api/rds/en-us_topic_0032347780
+
+  yandex:
+    services:
+      - name: Managed Service for PostgreSQL
+        docs:
+          - https://yandex.cloud/ru/docs/managed-postgresql/
+        api:
+          - https://yandex.cloud/en/docs/managed-postgresql/api-ref/

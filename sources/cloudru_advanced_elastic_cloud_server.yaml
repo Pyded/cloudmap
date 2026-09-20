@@ -1,9 +1,0 @@
-id: cloudru_advanced_elastic_cloud_server
-provider: cloudru_advanced
-name: Elastic Cloud Server
-
-docs:
-  - https://cloud.ru/docs/en/usermanual/ecs/en-us_topic_0013771112
-
-api:
-  - https://cloud.ru/docs/advanced/overview/advanced-en-api

@@ -1,8 +1,0 @@
-id: managed_postgresql
-name: Управляемая база данных PostgreSQL
-
-providers:
-  cloudru_advanced:
-    name: Relational Database Service for PostgreSQL
-    sources:
-      - cloudru_advanced_postgresql
