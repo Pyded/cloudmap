@@ -201,3 +201,113 @@
           - https://yandex.cloud/ru/docs/metadata-hub/concepts/metastore
         api:
           - https://yandex.cloud/en/docs/metadata-hub/api-ref/
+
+- id: managed_redis
+  name: Managed Redis
+
+  evolution:
+    name: Managed Redis
+    docs:
+      - https://cloud.ru/docs/redis/ug/index
+    api:
+      - https://cloud.ru/docs/redis/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Distributed Cache Service for Redis
+        docs:
+          - https://cloud.ru/docs/dcs/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/dcs/dcs-api-0312002
+
+  yandex:
+    services:
+      - name: Managed Service for Valkey
+        docs:
+          - https://yandex.cloud/ru/docs/managed-valkey/
+        api:
+          - https://yandex.cloud/en/docs/managed-valkey/api-ref/
+
+- id: managed_spark
+  name: Managed Spark
+
+  evolution:
+    name: Managed Spark
+    docs:
+      - https://cloud.ru/docs/spark/ug/index
+    api:
+      - https://cloud.ru/docs/spark/ug/topics/api
+
+  advanced:
+    services:
+      - name: MapReduce Service
+        docs:
+          - https://cloud.ru/docs/mrs/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/mrs/mrs_02_0001
+
+      - name: Data Lake Insight
+        docs:
+          - https://cloud.ru/docs/dli/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/dli/dli_02_0100
+
+  yandex:
+    services:
+      - name: Managed Service for Apache Spark
+        docs:
+          - https://yandex.cloud/ru/docs/managed-spark/
+        api:
+          - https://yandex.cloud/en/docs/managed-spark/api-ref/grpc/
+
+- id: vpc
+  name: VPC
+
+  evolution:
+    name: Evolution VPC
+    docs:
+      - https://cloud.ru/docs/evolution-vpc/ug/index
+    api:
+      - https://cloud.ru/docs/evolution-vpc/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Virtual Private Cloud
+        docs:
+          - https://cloud.ru/docs/vpc/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/vpc/en-us_topic_0173364207
+
+  yandex:
+    services:
+      - name: Virtual Private Cloud
+        docs:
+          - https://yandex.cloud/ru/docs/vpc/
+        api:
+          - https://yandex.cloud/en/docs/vpc/api-ref/
+
+- id: object_storage
+  name: Object Storage
+
+  evolution:
+    name: Object Storage
+    docs:
+      - https://cloud.ru/docs/s3e/ug/index
+    api:
+      - https://cloud.ru/docs/s3e/ug/topics/api
+
+  advanced:
+    services:
+      - name: Object Storage Service
+        docs:
+          - https://cloud.ru/docs/obs/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/obs/obs_04_0005
+
+  yandex:
+    services:
+      - name: Object Storage
+        docs:
+          - https://yandex.cloud/ru/docs/storage/
+        api:
+          - https://yandex.cloud/en/docs/storage/s3/api-ref/
