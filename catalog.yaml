@@ -6,7 +6,7 @@
     docs:
       - https://cloud.ru/docs/virtual-machines/ug/index.html
     api:
-      - https://cloud.ru/docs/virtual-machines/ug/topics/api-ref-v3
+      - https://cloud.ru/docs/virtual-machines/ug/topics/api-ref
 
   advanced:
     services:
@@ -63,3 +63,141 @@
           - https://yandex.cloud/ru/docs/managed-postgresql/
         api:
           - https://yandex.cloud/en/docs/managed-postgresql/api-ref/
+
+- id: artifact_registry
+  name: Artifact Registry
+
+  evolution:
+    name: Artifact Registry
+    docs:
+      - https://cloud.ru/docs/artifact-registry-evolution/ug/index
+    api:
+      - https://cloud.ru/docs/artifact-registry-evolution/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: SoftWare Repository for Container
+        docs:
+          - https://cloud.ru/docs/swr/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/swr/swr_02_0101
+
+  yandex:
+    services:
+      - name: Container Registry
+        docs:
+          - https://yandex.cloud/ru/docs/container-registry/
+        api:
+          - https://yandex.cloud/en/docs/container-registry/api-ref/
+
+- id: container_apps
+  name: Container Apps
+
+  evolution:
+    name: Container Apps
+    docs:
+      - https://cloud.ru/docs/container-apps-evolution/ug/index
+    api:
+      - https://cloud.ru/docs/container-apps-evolution/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Cloud Container Instance
+        docs:
+          - https://cloud.ru/docs/en-ru/usermanual/cci/cci_03_1001
+
+  yandex:
+    services:
+      - name: Serverless Containers
+        docs:
+          - https://yandex.cloud/ru/docs/serverless-containers/
+        api:
+          - https://yandex.cloud/en/docs/serverless-containers/containers/api-ref/
+
+- id: managed_clickhouse
+  name: Managed ClickHouse
+
+  evolution:
+    name: Managed ClickHouse
+    docs:
+      - https://cloud.ru/docs/clickhouse/ug/index
+    api:
+      - https://cloud.ru/docs/clickhouse/ug/topics/api-ref
+
+  yandex:
+    services:
+      - name: Managed Service for ClickHouse
+        docs:
+          - https://yandex.cloud/ru/docs/managed-clickhouse/
+        api:
+          - https://yandex.cloud/en/docs/managed-clickhouse/api-ref/
+
+- id: managed_kafka
+  name: Managed Kafka
+
+  evolution:
+    name: Managed Kafka
+    docs:
+      - https://cloud.ru/docs/paas-kafka/ug/index
+    api:
+      - https://cloud.ru/docs/paas-kafka/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Distributed Message Service for Kafka
+        docs:
+          - https://cloud.ru/docs/dms-kafka/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/kafka/kafka-api-180423002
+
+  yandex:
+    services:
+      - name: Managed Service for Apache Kafka
+        docs:
+          - https://yandex.cloud/ru/docs/managed-kafka/
+        api:
+          - https://yandex.cloud/en/docs/managed-kafka/api-ref/
+
+- id: managed_kubernetes
+  name: Managed Kubernetes
+
+  evolution:
+    name: Managed Kubernetes
+    docs:
+      - https://cloud.ru/docs/kubernetes-evolution/ug/index
+    api:
+      - https://cloud.ru/docs/kubernetes-evolution/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Cloud Container Engine
+        docs:
+          - https://cloud.ru/docs/cce/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/cce/cce_02_0098
+
+  yandex:
+    services:
+      - name: Managed Service for Kubernetes
+        docs:
+          - https://yandex.cloud/ru/docs/managed-kubernetes/
+        api:
+          - https://yandex.cloud/en/docs/managed-kubernetes/managed-kubernetes/api-ref/
+
+- id: managed_metastore
+  name: Managed Metastore
+
+  evolution:
+    name: Managed Metastore
+    docs:
+      - https://cloud.ru/docs/metastore/ug/index
+    api:
+      - https://cloud.ru/docs/metastore/ug/topics/api
+
+  yandex:
+    services:
+      - name: Managed Service for Hive Metastore
+        docs:
+          - https://yandex.cloud/ru/docs/metadata-hub/concepts/metastore
+        api:
+          - https://yandex.cloud/en/docs/metadata-hub/api-ref/
