@@ -1,0 +1,42 @@
+resources:
+  - id: block_storage_volume
+    name: Том блочного хранилища
+    category: storage
+    aliases:
+      - volume
+      - block_volume
+      - disk
+    providers:
+      evolution:
+        service: Диски
+        resource: Диск
+        docs: https://cloud.ru/docs/disks/ug/index
+        api: https://cloud.ru/docs/virtual-machines/ug/topics/api-ref
+      advanced:
+        service: Elastic Volume Service
+        resource: Disk
+        docs: https://cloud.ru/docs/en/usermanual/evs/en-us_topic_0014580741
+        api: https://cloud.ru/docs/advanced/overview/advanced-en-api
+      yandex:
+        service: Compute Cloud
+        resource: Disk
+        docs: https://yandex.cloud/ru/docs/compute/concepts/disk
+        api: https://yandex.cloud/ru/docs/compute/api-ref/
+
+  - id: disk_snapshot
+    name: Снимок диска
+    category: storage
+    aliases:
+      - volume_snapshot
+      - snapshot
+    providers:
+      advanced:
+        service: Elastic Volume Service
+        resource: Snapshot
+        docs: https://cloud.ru/docs/en/usermanual/evs/evs_01_0098
+        api: https://cloud.ru/docs/advanced/overview/advanced-en-api
+      yandex:
+        service: Compute Cloud
+        resource: Snapshot
+        docs: https://yandex.cloud/ru/docs/compute/concepts/snapshot
+        api: https://yandex.cloud/ru/docs/compute/api-ref/
