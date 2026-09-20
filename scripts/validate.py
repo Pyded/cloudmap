@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate cloudmap resources, sources, references, and external links."""
+"""Validate evo_crossmap resources, sources, references, and external links."""
 
 from __future__ import annotations
 
@@ -26,7 +26,7 @@ RESOURCE_PROVIDER_FIELDS = frozenset({"name", "sources"})
 SOURCE_FIELDS = frozenset({"id", "provider", "name", "docs", "api"})
 SNAKE_CASE = re.compile(r"^[a-z][a-z0-9]*(?:_[a-z0-9]+)*$")
 CYRILLIC = re.compile(r"[А-Яа-яЁё]")
-USER_AGENT = "cloudmap-url-validator/2.0 (+https://github.com/Pyded/cloudmap)"
+USER_AGENT = "evo-crossmap-url-validator/2.0 (+https://github.com/Pyded/evo_crossmap)"
 
 
 class CatalogError(Exception):

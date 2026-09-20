@@ -1,6 +1,6 @@
 <!-- Файл сгенерирован scripts/generate.py. Не редактируйте его вручную. -->
 
-# cloudmap
+# evo_crossmap
 
 Нейтральный каталог соответствий облачных ресурсов между Cloud.ru Evolution, Cloud.ru Advanced и Yandex Cloud.
 
