@@ -18,7 +18,7 @@
 
 ## Каталог
 
-Сейчас в `catalog.yaml` описаны:
+Таблица ниже автоматически обновляется GitHub Action после изменений в `main`.
 
-- `virtual_machines` — виртуальные машины и связанные инфраструктурные сервисы;
-- `managed_postgresql` — управляемый PostgreSQL.
+<!-- catalog-table:start -->
+<!-- catalog-table:end -->
