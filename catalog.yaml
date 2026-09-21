@@ -311,3 +311,249 @@
           - https://yandex.cloud/ru/docs/storage/
         api:
           - https://yandex.cloud/en/docs/storage/s3/api-ref/
+
+- id: bare_metal
+  name: Bare Metal
+
+  evolution:
+    name: Bare Metal
+    docs:
+      - https://cloud.ru/docs/bare-metal-evolution/ug/index
+    api:
+      - https://cloud.ru/docs/bare-metal-evolution/ug/topics/api-ref
+
+  yandex:
+    services:
+      - name: BareMetal
+        docs:
+          - https://yandex.cloud/ru/docs/baremetal/
+        api:
+          - https://yandex.cloud/en/docs/baremetal/api-ref/
+
+- id: load_balancer
+  name: Load Balancer
+
+  evolution:
+    name: Load Balancer
+    docs:
+      - https://cloud.ru/docs/nlb/ug/index
+    api:
+      - https://cloud.ru/docs/nlb/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Elastic Load Balance
+        docs:
+          - https://cloud.ru/docs/elb/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/elb/elb_gl_0000
+
+  yandex:
+    services:
+      - name: Network Load Balancer
+        docs:
+          - https://yandex.cloud/ru/docs/network-load-balancer/
+        api:
+          - https://yandex.cloud/en/docs/network-load-balancer/api-ref/
+
+      - name: Application Load Balancer
+        docs:
+          - https://yandex.cloud/ru/docs/application-load-balancer/
+        api:
+          - https://yandex.cloud/en/docs/application-load-balancer/api-ref/
+
+- id: dns
+  name: DNS
+
+  evolution:
+    name: Evolution DNS
+    docs:
+      - https://cloud.ru/docs/evolution-dns/ug/index
+    api:
+      - https://cloud.ru/docs/evolution-dns/ug/topics/api-ref
+
+  advanced:
+    services:
+      - name: Domain Name Service
+        docs:
+          - https://cloud.ru/docs/dns/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/dns/en-us_topic_0132421999
+
+  yandex:
+    services:
+      - name: Cloud DNS
+        docs:
+          - https://yandex.cloud/ru/docs/dns/
+        api:
+          - https://yandex.cloud/en/docs/dns/api-ref/
+
+- id: managed_airflow
+  name: Managed Airflow
+
+  evolution:
+    name: Managed Airflow
+    docs:
+      - https://cloud.ru/docs/managed-airflow/ug/index
+    api:
+      - https://cloud.ru/docs/managed-airflow/ug/topics/api
+
+  advanced:
+    services:
+      - name: DataArts Studio
+        docs:
+          - https://cloud.ru/docs/dataarts-studio/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/dataartsstudio/dataartsstudio_02_0002
+
+  yandex:
+    services:
+      - name: Managed Service for Apache Airflow
+        docs:
+          - https://yandex.cloud/ru/docs/managed-airflow/
+        api:
+          - https://yandex.cloud/en/docs/managed-airflow/api-ref/
+
+- id: managed_arenadatadb
+  name: Managed ArenadataDB
+
+  evolution:
+    name: Managed ArenadataDB
+    docs:
+      - https://cloud.ru/docs/arenadata-db/ug/index
+    api:
+      - https://cloud.ru/docs/arenadata-db/ug/topics/api
+
+  advanced:
+    services:
+      - name: Data Warehouse Service
+        docs:
+          - https://cloud.ru/docs/dws/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/dws/dws_02_0034
+
+  yandex:
+    services:
+      - name: MPP Analytics for PostgreSQL
+        docs:
+          - https://yandex.cloud/ru/docs/managed-greenplum/
+        api:
+          - https://yandex.cloud/en/docs/managed-greenplum/api-ref/
+
+- id: managed_trino
+  name: Managed Trino
+
+  evolution:
+    name: Managed Trino
+    docs:
+      - https://cloud.ru/docs/trino/ug/index
+    api:
+      - https://cloud.ru/docs/trino/ug/topics/api
+
+  advanced:
+    services:
+      - name: Data Lake Insight
+        docs:
+          - https://cloud.ru/docs/dli/ug/index
+        api:
+          - https://cloud.ru/docs/en/api/dli/dli_02_0100
+
+  yandex:
+    services:
+      - name: Managed Service for Trino
+        docs:
+          - https://yandex.cloud/ru/docs/managed-trino/
+        api:
+          - https://yandex.cloud/en/docs/managed-trino/api-ref/
+
+- id: ai_agents
+  name: AI Agents
+
+  evolution:
+    name: AI Agents
+    docs:
+      - https://cloud.ru/docs/ai-agents/ug/index
+    api:
+      - https://cloud.ru/docs/ai-agents/ug/topics/api-ref
+
+  yandex:
+    services:
+      - name: AI Studio — AI-агенты
+        docs:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/concepts/agents/
+        api:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/api/Responses/
+
+- id: managed_rag
+  name: Managed RAG
+
+  evolution:
+    name: Managed RAG
+    docs:
+      - https://cloud.ru/docs/rag/ug/index
+    api:
+      - https://cloud.ru/docs/rag/ug/topics/api
+
+  yandex:
+    services:
+      - name: AI Studio — AI Search
+        docs:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/concepts/search/
+        api:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/api/Vector-stores/
+
+- id: ml_inference
+  name: ML Inference
+
+  evolution:
+    name: ML Inference
+    docs:
+      - https://cloud.ru/docs/ml-inference/ug/index
+    api:
+      - https://cloud.ru/docs/ml-inference/ug/topics/api-ref
+
+  yandex:
+    services:
+      - name: AI Studio — выделенные инстансы
+        docs:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/concepts/generation/dedicated-instance.html
+
+      - name: DataSphere — ноды
+        docs:
+          - https://yandex.cloud/ru/docs/datasphere/concepts/deploy/
+        api:
+          - https://yandex.cloud/en/docs/datasphere/api-ref/
+
+- id: ml_finetuning
+  name: ML Finetuning
+
+  evolution:
+    name: ML Finetuning
+    docs:
+      - https://cloud.ru/docs/finetuning/ug/index
+
+  yandex:
+    services:
+      - name: AI Studio — дообучение моделей
+        docs:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/concepts/tuning/
+        api:
+          - https://aistudio.yandex.ru/docs/ru/ai-studio/tuning/api-ref/grpc/
+
+- id: notebooks
+  name: Notebooks
+
+  evolution:
+    name: Notebooks
+    docs:
+      - https://cloud.ru/docs/notebooks/ug/index
+    api:
+      - https://cloud.ru/docs/notebooks/ug/topics/api-ref
+
+  yandex:
+    services:
+      - name: DataSphere
+        docs:
+          - https://yandex.cloud/ru/docs/datasphere/
+        api:
+          - https://yandex.cloud/en/docs/datasphere/api-ref/
